@@ -10,10 +10,10 @@ ball_position = [3, 3]
 ball_velocity = [1, 1]
 lost = False
 obat_y=4
-t=0.5
 shame=False
-a=0.1
+gs=0.4
 times_hit=0
+opturn = True
 #---Functions-------------------
 def drawbat():
   sense.set_pixel(0,bat_y,batcolor)
@@ -21,18 +21,26 @@ def drawbat():
   sense.set_pixel(0,bat_y-1,batcolor)
 
 def opbat():
-  global obat_y
+  global obat_y, opturn
   sense.set_pixel(7,obat_y,batcolor)
   sense.set_pixel(7,obat_y+1,batcolor)
   sense.set_pixel(7,obat_y-1,batcolor)
-  if ball_velocity[0]==1:
+  if gs == 0.2:
+    if opturn == True:
+      opturn = False
+    else:
+      opturn = True
+  else:
+    opturn = True
+  if ball_velocity[0]==1 and opturn:
     if ball_position[1]-obat_y>0 and obat_y<6:
       obat_y += 1
     elif ball_position[1]-obat_y<0 and obat_y>1:
       obat_y -= 1
+      
 
 def drawball():
-  global times_hit
+  global times_hit, gs
   ball_position[0]+=ball_velocity[0]
   ball_position[1]+=ball_velocity[1]
   sense.set_pixel(ball_position[0],ball_position[1],ballcolor)
@@ -41,9 +49,15 @@ def drawball():
   if ball_position[1] == 7 or ball_position[1]==0:
     ball_velocity[1] = -ball_velocity[1]
   if ball_position[0] == 1 and (bat_y-1)<=ball_position[1]<=(bat_y+1):
+    gs = 0.4
+    if ball_position[1]==bat_y:
+      gs = 0.2
     ball_velocity[0] = -ball_velocity[0]
     times_hit+=1
   if ball_position[0] == 6 and (obat_y-1)<=ball_position[1]<=(obat_y+1):
+    gs = 0.4
+    if ball_position[1]==obat_y:
+      gs = 0.2
     ball_velocity[0] = -ball_velocity[0]
   if ball_position[0]==0:
     lose()
@@ -96,9 +110,7 @@ while True:
     drawbat()
     opbat()
     drawball()
-    time.sleep(t)
-    a/=1.5
-    t-=a
+    time.sleep(gs)
   time.sleep(2)
   for x in range(25):
     sense.clear(0,0,0)

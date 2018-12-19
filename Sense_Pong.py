@@ -25,10 +25,11 @@ def opbat():
   sense.set_pixel(7,obat_y,batcolor)
   sense.set_pixel(7,obat_y+1,batcolor)
   sense.set_pixel(7,obat_y-1,batcolor)
-  if ball_position[1]-obat_y>0 and obat_y<6:
-    obat_y += 1
-  elif ball_position[1]-obat_y<0 and obat_y>1:
-    obat_y -= 1
+  if ball_velocity[0]==1:
+    if ball_position[1]-obat_y>0 and obat_y<6:
+      obat_y += 1
+    elif ball_position[1]-obat_y<0 and obat_y>1:
+      obat_y -= 1
 
 def drawball():
   global times_hit

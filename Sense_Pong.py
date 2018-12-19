@@ -88,7 +88,7 @@ while True:
   t=0.5
   a=0.1
   lost = False
-  ball_position = [random.randint(2,5), random.randint(1,6)]
+  ball_position = [random.randint(2,5), random.randint(1,5)]
   ball_velocity = [1, 1]
   shame=False
   while not lost:
